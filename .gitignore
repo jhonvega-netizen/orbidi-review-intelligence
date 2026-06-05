@@ -1,0 +1,18 @@
+# Claves y configuración local
+.env
+
+# Datos de clientes y caché (sensibles, se regeneran en ejecución)
+data/*.json
+data/*.csv
+!data/reviews.sample.json
+
+# Logs del servidor
+server.out.log
+server.err.log
+*.log
+
+# Node
+node_modules/
+
+# Claude Code local settings
+.claude/settings.local.json

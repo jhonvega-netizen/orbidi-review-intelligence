@@ -1,0 +1,46 @@
+{
+  "reviews": [
+    {
+      "id": "sample-1",
+      "author": "Cliente A",
+      "rating": 5,
+      "text": "Excelente atencion, el equipo fue profesional y resolvio mis dudas rapido.",
+      "date": "2026-05-01"
+    },
+    {
+      "id": "sample-2",
+      "author": "Cliente B",
+      "rating": 1,
+      "text": "No recomiendo el servicio. Hubo retrasos, poca comunicacion y sigo esperando una solucion.",
+      "date": "2026-05-02"
+    },
+    {
+      "id": "sample-3",
+      "author": "Cliente C",
+      "rating": 4,
+      "text": "Buen trato y seguimiento. Tuvieron un pequeno retraso, pero el resultado final fue bueno.",
+      "date": "2026-05-04"
+    },
+    {
+      "id": "sample-4",
+      "author": "Cliente D",
+      "rating": 2,
+      "text": "La experiencia fue decepcionante, tuve que reclamar varias veces para obtener respuesta.",
+      "date": "2026-05-05"
+    },
+    {
+      "id": "sample-5",
+      "author": "Cliente E",
+      "rating": 5,
+      "text": "Estoy satisfecho con la gestion y recomiendo al equipo por su profesionalidad.",
+      "date": "2026-05-07"
+    },
+    {
+      "id": "sample-6",
+      "author": "Cliente F",
+      "rating": 3,
+      "text": "El servicio empezo bien, pero despues la comunicacion fue lenta y quedaron puntos pendientes.",
+      "date": "2026-05-08"
+    }
+  ]
+}

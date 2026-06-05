@@ -1,0 +1,214 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>ORBIDI Review Intelligence</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+
+    <header class="topbar">
+      <div class="brand-lockup" aria-label="ORBIDI">
+        <span class="brand-orbit"></span>
+        <span class="brand-word">ORBIDI</span>
+        <span class="brand-sub">Review Intelligence</span>
+      </div>
+      <nav class="main-nav" role="tablist">
+        <button class="nav-tab active" data-tab="hubspot" role="tab">HubSpot Reseñas</button>
+        <button class="nav-tab" data-tab="gmb" role="tab">Análisis GMB / Zernio</button>
+      </nav>
+      <div class="status-strip" id="configStatus" aria-live="polite"></div>
+    </header>
+
+    <main class="app-shell">
+
+      <!-- ══════════════════════════════════════════ HubSpot Section -->
+      <section id="section-hubspot" class="main-section">
+
+        <div class="section-toolbar">
+          <div class="section-info">
+            <span class="section-eyebrow">HubSpot Tickets · Customer Success</span>
+            <strong id="hubspotStatus">Cargando reporte...</strong>
+          </div>
+          <div class="toolbar-actions">
+            <a class="ghost-button" href="https://app-eu1.hubspot.com/contacts/25808060/objects/0-5/views/154934216/board"
+              target="_blank" rel="noreferrer">Ver en HubSpot ↗</a>
+            <button type="button" class="ghost-button" id="hubspotRefreshButton">Actualizar</button>
+            <button type="button" class="ghost-button" id="hubspotSheetAssociateButton">Cruzar Sheet</button>
+            <button type="button" class="ghost-button" id="hubspotReplyGmbButton">Responder reseÃ±as GMB</button>
+            <button type="button" class="primary-button" id="hubspotAnalyzeButton">Analizar HubSpot</button>
+          </div>
+        </div>
+
+        <div class="metrics-strip" id="hubspotMetrics">
+          <article class="metric"><span>Reseñas Inbox</span><strong>-</strong></article>
+          <article class="metric positive"><span>Coinciden</span><strong>-</strong></article>
+          <article class="metric possible"><span>Posibles</span><strong>-</strong></article>
+          <article class="metric negative"><span>No coinciden</span><strong>-</strong></article>
+        </div>
+
+        <div id="gmbReplyAudit" class="reply-audit" aria-live="polite"></div>
+
+        <div class="filter-toolbar">
+          <div class="tabs" role="tablist" aria-label="Filtro HubSpot">
+            <button type="button" class="hubspot-tab active" data-hubspot-filter="all">Todas</button>
+            <button type="button" class="hubspot-tab" data-hubspot-filter="gmb">Solo GMB</button>
+            <button type="button" class="hubspot-tab" data-hubspot-filter="gmb_replied">Publicadas Google</button>
+            <button type="button" class="hubspot-tab" data-hubspot-filter="gmb_ack">Acuse Zernio</button>
+            <button type="button" class="hubspot-tab" data-hubspot-filter="gmb_pending">Pendientes GMB</button>
+            <button type="button" class="hubspot-tab" data-hubspot-filter="gmb_errors">Errores GMB</button>
+            <button type="button" class="hubspot-tab" data-hubspot-filter="negative">Negativas</button>
+            <button type="button" class="hubspot-tab" data-hubspot-filter="matches">Coinciden</button>
+            <button type="button" class="hubspot-tab" data-hubspot-filter="possible">Posibles</button>
+            <button type="button" class="hubspot-tab" data-hubspot-filter="unmatched">Sin coincidencia</button>
+          </div>
+        </div>
+
+        <div id="hubspotTable" class="cards-container" aria-live="polite">
+          <div class="cards-empty">
+            <p>Sin reporte cargado. Haz clic en <strong>Analizar HubSpot</strong> para comenzar.</p>
+          </div>
+        </div>
+
+      </section>
+
+      <!-- ══════════════════════════════════════════ GMB Section -->
+      <section id="section-gmb" class="main-section hidden">
+
+        <div class="section-toolbar">
+          <div class="section-info" id="reportContext">
+            <span class="section-eyebrow">GMB / Zernio · Análisis de reseñas</span>
+            <strong>Sin análisis cargado</strong>
+          </div>
+          <div class="toolbar-actions">
+            <button class="ghost-button" type="button" id="newReviewsButton">Revisar nuevas</button>
+            <button class="ghost-button" type="button" id="gmbPositiveReplyButton">Responder positivas</button>
+            <button class="ghost-button" type="button" id="exportButton" disabled>Exportar CSV</button>
+            <button class="ghost-button" type="button" id="sampleButton">Muestra</button>
+            <button class="primary-button" type="submit" form="analysisForm" id="runButton">Analizar todo</button>
+          </div>
+        </div>
+
+        <details class="config-drawer" id="gmbConfigDrawer">
+          <summary class="config-drawer-toggle">
+            <span>Configurar fuente de análisis</span>
+            <span class="drawer-arrow">▼</span>
+          </summary>
+          <form class="gmb-form" id="analysisForm">
+            <div class="form-grid">
+              <div class="form-col">
+                <label class="field">
+                  <span>Fuente</span>
+                  <div class="segmented" role="tablist" aria-label="Fuente de resenas">
+                    <button type="button" class="segment active" data-source="zernio">Zernio</button>
+                    <button type="button" class="segment" data-source="serpapi">Google URL</button>
+                    <button type="button" class="segment" data-source="business-profile">Business Profile</button>
+                    <button type="button" class="segment" data-source="manual">Manual</button>
+                  </div>
+                </label>
+                <label class="field">
+                  <span>Empresa</span>
+                  <input id="companyName" name="companyName" value="ORBIDI" autocomplete="off" />
+                </label>
+                <label class="field source-field hidden" data-for="serpapi">
+                  <span>URL de Google</span>
+                  <textarea id="googleUrl" name="googleUrl" rows="4">https://www.google.com/search?sca_esv=d0dc8852595b11ab&amp;q=ORBIDI+Opiniones</textarea>
+                </label>
+                <div class="source-field" data-for="zernio">
+                  <label class="field">
+                    <span>Account ID de Zernio</span>
+                    <input id="zernioAccountId" name="zernioAccountId" placeholder="Opcional" />
+                  </label>
+                  <label class="field">
+                    <span>Location ID de Zernio</span>
+                    <input id="zernioLocationId" name="zernioLocationId" placeholder="Opcional" />
+                  </label>
+                </div>
+                <div class="source-field hidden" data-for="business-profile">
+                  <label class="field">
+                    <span>Account ID</span>
+                    <input id="gbpAccountId" name="gbpAccountId" placeholder="accounts/123456789" />
+                  </label>
+                  <label class="field">
+                    <span>Location ID</span>
+                    <input id="gbpLocationId" name="gbpLocationId" placeholder="locations/987654321" />
+                  </label>
+                </div>
+                <label class="field source-field hidden" data-for="manual">
+                  <span>Reseñas JSON o CSV</span>
+                  <textarea id="manualReviews" name="manualReviews" rows="6" placeholder='[{"author":"Cliente","rating":5,"text":"Excelente servicio"}]'></textarea>
+                </label>
+              </div>
+              <div class="form-col form-actions-col">
+                <label class="field compact">
+                  <span>Límite de reseñas</span>
+                  <input id="maxReviews" name="maxReviews" type="number" min="1" max="5000" value="3463" />
+                </label>
+              </div>
+            </div>
+          </form>
+        </details>
+
+        <div class="new-review-panel gmb-new-panel" id="newReviewPanel">
+          <span class="panel-label">Nuevas reseñas detectadas</span>
+          <strong id="newReviewStatus">Sin revisión</strong>
+          <div class="new-review-metrics">
+            <span><b id="newTotal">-</b> nuevas</span>
+            <span class="positive-num"><b id="newPositive">-</b> positivas</span>
+            <span class="negative-num"><b id="newNegative">-</b> negativas</span>
+          </div>
+        </div>
+
+        <div class="metrics-strip" id="summaryGrid">
+          <article class="metric"><span>Total</span><strong>-</strong></article>
+          <article class="metric positive"><span>Positivas</span><strong>-</strong></article>
+          <article class="metric negative"><span>Negativas</span><strong>-</strong></article>
+          <article class="metric"><span>Rating medio</span><strong>-</strong></article>
+        </div>
+
+        <div class="sentiment-row">
+          <div class="sentiment-bar" aria-label="Distribución de sentimiento">
+            <span class="bar-positive" style="width:50%"></span>
+            <span class="bar-negative" style="width:50%"></span>
+          </div>
+          <div class="chart-labels" id="rateLabels">
+            <span>0% positivas</span>
+            <span>0% negativas</span>
+          </div>
+        </div>
+
+        <div id="gmbPositiveReplyAudit" class="reply-audit" aria-live="polite"></div>
+
+        <div class="filter-toolbar">
+          <div class="tabs" role="tablist" aria-label="Filtro sentimiento">
+            <button type="button" class="tab active" data-filter="all">Todas</button>
+            <button type="button" class="tab" data-filter="positive">Positivas</button>
+            <button type="button" class="tab" data-filter="negative">Negativas</button>
+          </div>
+        </div>
+
+        <div id="gmb-cards" class="cards-container" aria-live="polite">
+          <div class="cards-empty">
+            <p>Sin análisis todavía. Haz clic en <strong>Analizar todo</strong> para comenzar.</p>
+          </div>
+        </div>
+
+      </section>
+
+    </main>
+
+    <!-- ══════════════════════════════════════════ Terminal -->
+    <div class="terminal-wrapper">
+      <div class="terminal-head">
+        <button type="button" id="terminalToggle" class="terminal-toggle-btn">▶ Terminal de análisis</button>
+        <button type="button" class="ghost-button dark" id="clearLogsButton">Limpiar</button>
+      </div>
+      <pre id="terminal" class="terminal-body" aria-live="polite"></pre>
+    </div>
+
+    <script src="/app.js" type="module"></script>
+  </body>
+</html>
