@@ -1329,7 +1329,8 @@ function getReviewInfoFormConfig(formSummary) {
 }
 
 async function main() {
-  const env = parseEnv(await readFile(path.join(ROOT, ".env"), "utf8"));
+  const envFile = await readFile(path.join(ROOT, ".env"), "utf8").catch(() => "");
+  const env = { ...process.env, ...parseEnv(envFile) };
   PORTAL_ID = env.HUBSPOT_PORTAL_ID || env.PORTAL_ID || DEFAULT_PORTAL_ID;
   TARGET_VIEW_ID = env.HUBSPOT_REVIEW_VIEW_ID || TARGET_VIEW_ID;
   TARGET_VIEW_URL = `https://app-eu1.hubspot.com/contacts/${PORTAL_ID}/objects/0-5/views/${TARGET_VIEW_ID}/board`;
